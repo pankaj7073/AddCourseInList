@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boot-Strap Link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Add Chapters</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">PANKAJ</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Vaishnav</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    </header>
+
+    <main>
+        <div class="container col-6">
+            <!-- Add Chapter -->
+            <div class="input-group mb-3 mt-5">
+                <input type="text" class="form-control" placeholder="Chapter Name" aria-label="Chapter Name" aria-describedby="button-addon2" id="input">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-success" type="button" id="btn">Button</button>
+                </div>
+              </div>
+
+            <!-- Lists  -->
+            <ul id="ul" class="list-group">
+                <li class="list-group-item d-flex justify-content-between">
+                    <h4 class="flex-grow-1">Chapter 1 </h4>
+                    <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                    <button class="btn btn-danger" onclick="removeChapter(this)">Remove</button>
+                </li>
+              </ul>
+        </div>
+    </main>
+
+    <!-- scripts -->
+    <script>
+      const btn = document.getElementById('btn');
+      btn.addEventListener('click', addChapter);
+      let ul  = document.getElementById('ul');
+      function addChapter(e){
+          if(ul.children[0].classList.contains("empMsg")){
+              ul.children[0].remove();
+          }
+
+          let input = document.getElementById('input');
+          let val = input.value;
+          
+          let newLi = document.createElement('li');
+          newLi.className = "list-group-item d-flex justify-content-between";
+          newLi.innerHTML = ` 
+                  <h4 class="flex-grow-1">${val}</h4>
+                  <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                  <button class="btn btn-danger" onclick="removeChapter(this)">Remove</button>
+              `;
+          ul.appendChild(newLi);
+      } 
+
+      function removeChapter(currElement){
+          currElement.parentElement.remove();
+          if (ul.children.length <= 0) {
+              let emptyMsg = document.createElement('h3');
+              emptyMsg.textContent = "Nothing is here.. please add some data";
+              emptyMsg.classList.add("text-center", "my-5", "text-danger", "empMsg");
+              ul.appendChild(emptyMsg);
+          }
+      }
+
+      // edit Chapter
+      function editChapter(element){
+       if(element.textContent == "Done"){
+          element.textContent = "Edit"
+         let currentChapterName = element.previousElementSibling.value
+         let currentTag = document.createElement('h3');
+         currentTag.className = "flex-grow-1"
+         currentTag.textContent = currentChapterName
+         element.parentElement.replaceChild(currentTag, element.previousElementSibling);
+       }
+       else{
+        element.textContent = "Done"
+        let currentChapterName = element.previousElementSibling.textContent
+        let currentInput = document.createElement('input');
+        currentInput.type = "text"
+        currentInput.placeholder = "Chapter Name"
+        currentInput.value = currentChapterName
+        currentInput.className = "form-control"
+        element.parentElement.replaceChild(currentInput, element.previousElementSibling)
+       }
+      }
+</script>
+
+</body>
+</html>
